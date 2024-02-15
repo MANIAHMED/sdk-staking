@@ -11,6 +11,7 @@
   import { ethers } from "ethers";
   import { useLocking } from "~/hooks/useLocking";
 import { useBalanceCheck } from "~/hooks/useBalanceCheck";
+import { useTokenIds } from "~/hooks/usetokenIds";
  //voting escrow
     //0xB4D2c9384af8AEFfC9810feec3914E59E24070eB
 
@@ -18,17 +19,17 @@ import { useBalanceCheck } from "~/hooks/useBalanceCheck";
     const { wallet } = useMetaMask();
     const { locking, amount, setAmount, period, setPeriod, handleLock } = useLocking();
     const { balance, checkBalance } = useBalanceCheck(locking, wallet.accounts[0]);
+    const { tokenIds, getTokenIds } = useTokenIds(locking, wallet.accounts[0], balance);
 
-    // const [balance, setBalance] = useState<any>(0);
-    const [tokenIds, setTokenIds] = useState<any[]>([]);
+
     const [balanceOfNft, setBalanceOfNft] = useState<any>();
     const [nftTokenId, setNftTokenId] = useState<string>("");
+
     const handleNftTokenIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setNftTokenId(e.target.value);
     };
    
 
- 
 
     useEffect(() => {
       (async () => {
@@ -44,25 +45,7 @@ import { useBalanceCheck } from "~/hooks/useBalanceCheck";
 
  
 
-    const GetTokenIds = async (balance: any) => {
-      const tokenIdArray = [];
 
-      for (let i = 0; i < balance; i++) {
-        try {
-          const response = await locking.getTokenId(wallet.accounts[0], i); // You can adjust the second parameter as needed
-          const formattedResponse = formatChainAsNum(response._hex);
-          tokenIdArray.push(formattedResponse);
-          console.log(`TokenId for iteration ${i}:`, formattedResponse);
-        } catch (error) {
-          console.error(`Error getting tokenId for iteration ${i}:`, error);
-          // Handle errors as needed
-          tokenIdArray.push(null); // Push a placeholder value if an error occurs
-        }
-      }
-
-      console.log("TokenIds:", tokenIdArray);
-      setTokenIds(tokenIdArray);
-    };
 
     const BalanceOfNft = async () => {
       try {
@@ -108,7 +91,7 @@ import { useBalanceCheck } from "~/hooks/useBalanceCheck";
           <div>{balance}</div>
         </div>
         <div>
-          <button onClick={() => GetTokenIds(balance)}>get Tokens Id</button>
+        <button onClick={() => getTokenIds()}>Get Token IDs</button>
           <div>
             {tokenIds.map((tokenId: any, index: any) => (
               <div
