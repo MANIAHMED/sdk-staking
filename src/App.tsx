@@ -7,7 +7,6 @@ import { MetaMaskError } from './components/MetaMaskError'
 import { MetaMaskContextProvider } from './hooks/useMetaMask'
 
 export const App = () => {
-
   return (
     <MetaMaskContextProvider>
       <div className={styles.appContainer}>

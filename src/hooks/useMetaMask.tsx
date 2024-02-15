@@ -17,6 +17,7 @@ interface MetaMaskContextData {
   errorMessage: string
   isConnecting: boolean
   connectMetaMask: () => void
+  disconnectMetaMask : ()=> void
   clearError: () => void
 }
 
@@ -38,6 +39,7 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
     const accounts = providedAccounts || await window.ethereum.request(
       { method: 'eth_accounts' },
     )
+    console.log("weeee",accounts)
 
     if (accounts.length === 0) {
       // If there are no accounts, then the user is disconnected
@@ -92,6 +94,7 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
       })
+      console.log("5678",accounts)
       clearError()
       updateWallet(accounts)
     } catch(err: any) {
@@ -99,6 +102,10 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
     }
     setIsConnecting(false)
   }
+  const disconnectMetaMask = useCallback(() => {
+    // Add any additional cleanup or logic needed when disconnecting
+    setWallet(disconnectedState);
+  }, []);
 
   return (
     <MetaMaskContext.Provider
@@ -109,6 +116,7 @@ export const MetaMaskContextProvider = ({ children }: PropsWithChildren) => {
         errorMessage,
         isConnecting,
         connectMetaMask,
+        disconnectMetaMask,
         clearError,
       }}
     >
