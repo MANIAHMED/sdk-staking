@@ -1,4 +1,3 @@
-// useBalanceCheck.js
 import { useState } from "react";
 import { formatChainAsNum } from "~/utils";
 

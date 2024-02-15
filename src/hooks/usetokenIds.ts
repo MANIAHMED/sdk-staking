@@ -1,4 +1,3 @@
-// useTokenIds.js
 import { useState } from "react";
 import { formatChainAsNum } from "~/utils";
 
@@ -13,14 +12,12 @@ export const useTokenIds = (locking:any, account:any, balance:any) => {
         const response = await locking.getTokenId(account, i);
         const formattedResponse = formatChainAsNum(response._hex);
         tokenIdArray.push(formattedResponse);
-        console.log(`TokenId for iteration ${i}:`, formattedResponse);
       } catch (error) {
         console.error(`Error getting tokenId for iteration ${i}:`, error);
         tokenIdArray.push(null);
       }
     }
 
-    console.log("TokenIds:", tokenIdArray);
     setTokenIds(tokenIdArray);
   };
 
