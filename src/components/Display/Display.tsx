@@ -18,7 +18,6 @@ export const Display = () => {
           <div>ChainId: {formatChainAsNum(wallet.chainId)}</div>
         </>
       }
-
       <LockingPage />
       <StakingPage />
     </div>
