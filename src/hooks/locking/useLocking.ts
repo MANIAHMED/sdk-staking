@@ -19,7 +19,6 @@ export const useLocking = () => {
   }, []);
 
   const handleLock = async () => {
-    // Validate the amount here before calling createLock
     if (!amount || isNaN(parseFloat(amount))) {
       console.error("Please enter a valid amount of tokens.");
       return;

@@ -9,10 +9,11 @@ import {
   ContractFactory,
 } from "@ethersproject/contracts";
 import { ethers } from "ethers";
-import { useLocking } from "~/hooks/useLocking";
-import { useBalanceCheck } from "~/hooks/useBalanceCheck";
-import { useTokenIds } from "~/hooks/usetokenIds";
-import { useNFTBalance } from "~/hooks/useNftBalance";
+
+import { useTokenIds } from "~/hooks/locking/usetokenIds";
+import { useNFTBalance } from "~/hooks/locking/useNftBalance";
+import { useLocking } from "~/hooks/locking/useLocking";
+import { useBalanceCheck } from "~/hooks/locking/useBalanceCheck";
 //voting escrow
 //0xB4D2c9384af8AEFfC9810feec3914E59E24070eB
 

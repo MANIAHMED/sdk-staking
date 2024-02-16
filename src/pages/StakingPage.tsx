@@ -5,11 +5,14 @@ import { ethers } from "ethers";
 import { Wallet } from "@eltk/staking-sdk";
 import { useMetaMask } from "~/hooks/useMetaMask";
 import { formatChainAsNum } from "~/utils";
+import { useTokenIds } from "~/hooks/staking/useTokenIds";
 
 export const StakingPage = () => {
+
+  
   const { wallet: connectedWallet } = useMetaMask();
   const [wallet, setWallet] = useState<any>();
-  const [tokenIds, setTokenIds] = useState<any[]>([]);
+  // const [tokenIds, setTokenIds] = useState<any[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -32,37 +35,34 @@ export const StakingPage = () => {
         2
       );
 
-      console.log("RESPSP", response);
     } catch (error) {
       console.log("errrr", error);
     }
   };
+  const {tokenIds, GetTokenIds} = useTokenIds(positionManager, connectedWallet);
 
-  const GetTokenIds = async () => {
-    const balance = await positionManager.balanceOf(
-      connectedWallet.accounts[0]
-    );
-    const tokenIdArray = [];
+  // const GetTokenIds = async () => {
+  //   const balance = await positionManager.balanceOf(
+  //     connectedWallet.accounts[0]
+  //   );
+  //   const tokenIdArray = [];
 
-    for (let i = 0; i < balance; i++) {
-      try {
-        const response = await positionManager.tokenOfOwnerByIndex(
-          connectedWallet.accounts[0],
-          i
-        ); // You can adjust the second parameter as needed
-        const formattedResponse = formatChainAsNum(response._hex);
-        tokenIdArray.push(formattedResponse);
-        console.log(`TokenId for iteration ${i}:`, formattedResponse);
-      } catch (error) {
-        console.error(`Error getting tokenId for iteration ${i}:`, error);
-        // Handle errors as needed
-        tokenIdArray.push(null); // Push a placeholder value if an error occurs
-      }
-    }
+  //   for (let i = 0; i < balance; i++) {
+  //     try {
+  //       const response = await positionManager.tokenOfOwnerByIndex(
+  //         connectedWallet.accounts[0],
+  //         i
+  //       );
+  //       const formattedResponse = formatChainAsNum(response._hex);
+  //       tokenIdArray.push(formattedResponse);
+  //     } catch (error) {
+  //       console.error(`Error getting tokenId for iteration ${i}:`, error);
+  //       tokenIdArray.push(null);
+  //     }
+  //   }
 
-    console.log("TokenIds:", tokenIdArray);
-    setTokenIds(tokenIdArray);
-  };
+  //   setTokenIds(tokenIdArray);
+  // };
 
   return (
     <>
