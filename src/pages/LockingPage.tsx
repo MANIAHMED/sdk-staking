@@ -14,6 +14,7 @@ import { useTokenIds } from "~/hooks/locking/usetokenIds";
 import { useNFTBalance } from "~/hooks/locking/useNftBalance";
 import { useLocking } from "~/hooks/locking/useLocking";
 import { useBalanceCheck } from "~/hooks/locking/useBalanceCheck";
+import { useNFTBalanceAT } from "~/hooks/locking/useNftBalanceAt";
 //voting escrow
 //0xB4D2c9384af8AEFfC9810feec3914E59E24070eB
 
@@ -32,11 +33,14 @@ export const LockingPage = () => {
   );
   const { balanceOfNft, nftTokenId, handleNftTokenIdChange, balanceOfNFT } =
     useNFTBalance(locking);
-
-
-
-
-
+  const {
+    balanceOfNFTAt,
+    setTokenId,
+    tokenId,
+    timePeriod,
+    setTimePeriod,
+    BalanceOfNftAt,
+  } = useNFTBalanceAT(locking);
 
   return (
     <div>
@@ -88,6 +92,27 @@ export const LockingPage = () => {
         <button onClick={balanceOfNFT}>Balance of Nft</button>
       </div>
       {balanceOfNft ? <div>{formatChainAsNum(balanceOfNft?._hex)}</div> : <></>}{" "}
+      <div>Balance of NFT at</div>
+      <label>
+        TOKEN ID
+        <input
+          type="number"
+          placeholder="Enter amount"
+          value={tokenId}
+          onChange={(e) => setTokenId(e.target.value)}
+        />
+      </label>
+      <label>
+        Timestamp Unix:
+        <input
+          type="number"
+          placeholder="Enter amount"
+          value={timePeriod}
+          onChange={(e) => setTimePeriod(Number(e.target.value))}
+        />
+      </label>
+      <button onClick={BalanceOfNftAt}>Submit</button>
+      {balanceOfNFTAt && balanceOfNFTAt}
     </div>
   );
 };

@@ -26,6 +26,7 @@ export const useLocking = () => {
     const amountAsString = amount.toString();
 
     const response = await locking.createLock(amountAsString, period);
+    console.log("RESP",response)
   };
 
   return {
