@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
-import { Locking, Wallet } from "@eltk/staking-sdk";
+import { Locking, StakerWallet } from "@eltk/staking-sdk";
 import { VOTING_ESCROW } from "~/components/constants";
 
 export const useLocking = () => {
   const [locking, setLocking] = useState<any>();
   const [amount, setAmount] = useState<string>("");
   const [period, setPeriod] = useState<number>(604800);
+  const [lockingHash, setLockingHash] = useState<any>();
 
   useEffect(() => {
     (async () => {
-      const wallet = await Wallet.getSignerFromMetaMask();
-      const lockingInstance = new Locking(
-        wallet,
-        VOTING_ESCROW
-      );
+      console.log("321221");
+      const wallet = await StakerWallet.getSignerFromMetaMask();
+      console.log("321221", typeof wallet);
+
+      const lockingInstance = await Locking.getInstance(wallet);
       setLocking(lockingInstance);
     })();
   }, []);
@@ -26,7 +27,7 @@ export const useLocking = () => {
     const amountAsString = amount.toString();
 
     const response = await locking.createLock(amountAsString, period);
-    console.log("RESP",response)
+    setLockingHash(response?.hash);
   };
 
   return {
@@ -35,6 +36,7 @@ export const useLocking = () => {
     setAmount,
     period,
     setPeriod,
+    lockingHash,
     handleLock,
   };
 };

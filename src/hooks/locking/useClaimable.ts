@@ -6,7 +6,8 @@ export const useClaimable = (locking:any)=>{
     
     const Claimable = async ()=>{
         const response = await locking.claimable(claimableTokenId);
-        setClaimableAmount(response)
+        console.log("SSS",response)
+        setClaimableAmount(response?._hex)
     }
     
     return{

@@ -6,7 +6,8 @@ export const useClaim = (locking: any) => {
 
   const Claim = async () => {
     const response = await locking.claim(claimTokenId);
-    setClaimHash(response);
+
+    setClaimHash(response?.hash);
   };
 
   return {

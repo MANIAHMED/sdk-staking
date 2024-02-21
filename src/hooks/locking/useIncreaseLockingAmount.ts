@@ -8,8 +8,11 @@ export const useIncreaseLockingAmount = (locking:any)=>{
     const [increaseAmountHash, setIncreaseAmountHash] = useState<any>();
   
     const IncreaseAmount = async () => {
+      console.log("AMOUNT", )
       const response = await locking.increaseAmount(increasedAmountTokenId,increasedAmountValue);
-      increaseAmountHash(response);
+      console.log("AMOUNT",response )
+
+      setIncreaseAmountHash(response?.hash);
     };
   
     return {

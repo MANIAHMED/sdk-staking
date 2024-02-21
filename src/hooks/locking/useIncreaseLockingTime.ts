@@ -9,7 +9,7 @@ export const useIncreaseLockingTime = (locking:any)=>{
   
     const IncreaseTime = async () => {
       const response = await locking.increaseAmount(increasedTimeTokenId,increasedTimeValue);
-      setIncreaseTimeHash(response);
+      setIncreaseTimeHash(response?.hash);
     };
   
     return {

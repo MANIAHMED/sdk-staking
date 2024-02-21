@@ -6,7 +6,8 @@ const [tokenStatistics,setTokenStatistics] =  useState<any>();
 
 const CalculateStatistics = async ()=>{
     const response = await locking.locked(statisticsTokenId);
-    setTokenStatistics(response)
+    console.log("Stats")
+    setTokenStatistics(response?.amount?._hex)
 }
 
 return{

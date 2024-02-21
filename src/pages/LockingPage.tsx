@@ -27,12 +27,22 @@ import { useIncreaseLockingTime } from "~/hooks/locking/useIncreaseLockingTime";
 
 export const LockingPage = () => {
   const { wallet } = useMetaMask();
-  const { locking, amount, setAmount, period, setPeriod, handleLock } =
-    useLocking();
+  const {
+    locking,
+    amount,
+    setAmount,
+    period,
+    setPeriod,
+    lockingHash,
+    handleLock,
+  } = useLocking();
+  console.log("LLL", locking)
+
   const { balance, checkBalance } = useBalanceCheck(
     locking,
     wallet.accounts[0]
   );
+
   const { tokenIds, getTokenIds } = useTokenIds(
     locking,
     wallet.accounts[0],
@@ -40,6 +50,7 @@ export const LockingPage = () => {
   );
   const { balanceOfNft, nftTokenId, handleNftTokenIdChange, balanceOfNFT } =
     useNFTBalance(locking);
+
   const {
     balanceOfNFTAt,
     setTokenId,
@@ -90,44 +101,56 @@ export const LockingPage = () => {
     IncreaseAmount,
   } = useIncreaseLockingAmount(locking);
 
-
-  const {    increasedTimeTokenId,
+  const {
+    increasedTimeTokenId,
     setIncreasedTimeTokenId,
     increasedTimeValue,
     setIncreasedTimeValue,
     increaseTimeHash,
-    IncreaseTime} = useIncreaseLockingTime(locking);
+    IncreaseTime,
+  } = useIncreaseLockingTime(locking);
+
   return (
     <div>
-      <div style={{ fontSize: 18, fontWeight: "bold" }}>Locking Hooks</div>
-      <label>
-        Amount of Tokens
-        <input
-          type="number"
-          placeholder="Enter amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-      </label>
-      <label>
-        Locking Period:
-        <select
-          value={period}
-          onChange={(e) => setPeriod(Number(e.target.value))}
-        >
-          <option value={604800}>1 week</option>
-          <option value={1209600}>2 weeks</option>
-          {/* Add more options as needed */}
-        </select>
-      </label>
-      <button onClick={handleLock}>Lock</button>
-      <div>
-        <button onClick={checkBalance}>CheckBalance</button>
-        <div>{balance}</div>
+      <div
+        style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#efefef" }}
+      >
+        <div style={{ fontSize: 18, fontWeight: "bold" }}>Locking Hooks</div>
+        <label>
+          Amount of Tokens
+          <input
+            type="number"
+            placeholder="Enter amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+        </label>
+        <label>
+          Locking Period:
+          <select
+            value={period}
+            onChange={(e) => setPeriod(Number(e.target.value))}
+          >
+            <option value={604800}>1 week</option>
+            <option value={1209600}>2 weeks</option>
+          </select>
+        </label>
+        <button onClick={handleLock}>Lock</button>
+        <div>Tx Hash :{lockingHash}</div>
       </div>
-      <div>
+      <div
+        style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#efefef" }}
+      >
+        <button onClick={checkBalance}>CheckBalance</button>
+        <div>Balance: {balance}</div>
+      </div>
+      <div
+        style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#efefef" }}
+      >
         <button onClick={() => getTokenIds()}>Get Token IDs</button>
         <div>
+          {" "}
+          TokenIds:
           {tokenIds &&
             tokenIds.map((tokenId: any, index: any) => (
               <div
@@ -136,7 +159,9 @@ export const LockingPage = () => {
             ))}
         </div>
       </div>
-      <div>
+      <div
+        style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#efefef" }}
+      >
         Balance of Nft
         <input
           type="text"
@@ -145,98 +170,102 @@ export const LockingPage = () => {
           onChange={handleNftTokenIdChange}
         />
         <button onClick={balanceOfNFT}>Balance of Nft</button>
+        <div> Balance:{formatChainAsNum(balanceOfNft?._hex)}</div>
       </div>
-      {balanceOfNft ? <div>{formatChainAsNum(balanceOfNft?._hex)}</div> : <></>}{" "}
-      <div>Balance of NFT at</div>
-      <label>
-        TOKEN ID
+
+      <div
+        style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#efefef" }}
+      >
+        <div>Balance of NFT at</div>
+        <label>
+          TOKEN ID
+          <input
+            type="number"
+            placeholder="Enter amount"
+            value={tokenId}
+            onChange={(e) => setTokenId(e.target.value)}
+          />
+        </label>
+        <label>
+          Timestamp Unix:
+          <input
+            type="number"
+            placeholder="Enter amount"
+            value={timePeriod}
+            onChange={(e) => setTimePeriod(Number(e.target.value))}
+          />
+        </label>
+        <button onClick={BalanceOfNftAt}>Submit</button>
+        <div>Balance At: {formatChainAsNum(balanceOfNFTAt?._hex)}</div>
+      </div>
+
+      <div
+        style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#efefef" }}
+      >
+        <div>Check Voting Power</div>
         <input
           type="number"
           placeholder="Enter amount"
-          value={tokenId}
-          onChange={(e) => setTokenId(e.target.value)}
+          value={votingTokenId}
+          onChange={(e) => setVotingTokenId(e.target.value)}
         />
-      </label>
-      <label>
-        Timestamp Unix:
-        <input
-          type="number"
-          placeholder="Enter amount"
-          value={timePeriod}
-          onChange={(e) => setTimePeriod(Number(e.target.value))}
-        />
-      </label>
-      <button onClick={BalanceOfNftAt}>Submit</button>
-      {balanceOfNFTAt && balanceOfNFTAt}
-      <div>Check Voting Power</div>
-      <input
-        type="number"
-        placeholder="Enter amount"
-        value={votingTokenId}
-        onChange={(e) => setVotingTokenId(e.target.value)}
-      />{" "}
-      <>
-        {" "}
-        <button onClick={CalculateVotingPower}>Calculate</button>
-        <>{votingPower}</>
-      </>
-      <>
+        <>
+          <button onClick={CalculateVotingPower}>Calculate</button>
+          <>Voting Power Percentage:{votingPower}</>
+        </>
+      </div>
+
+      <div style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#efefef" }} >
         <div>Check Token Locked Statistics</div>
         <input
           type="number"
-          placeholder="Enter amount"
+          placeholder="Enter Id"
           value={statisticsTokenId}
           onChange={(e) => setStatisticsTokenId(e.target.value)}
         />{" "}
         <>
           {" "}
           <button onClick={CalculateStatistics}>Calculate</button>
-          <>{tokenStatistics}</>
+          <>Token Statsitics:{ formatChainAsNum(tokenStatistics)}</>
         </>
-      </>
-      <>
+      </div>
+
+
+
+      <div style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#efefef" }} >
         <>Check Claimables</>
         <input
           type="number"
-          placeholder="Enter amount"
+          placeholder="Enter Id"
           value={claimableTokenId}
           onChange={(e) => setClaimableTokenId(e.target.value)}
-        />{" "}
+        />
         <>
-          {" "}
           <button onClick={Claimable}>Calculate</button>
-          <>{claimableAmount}</>
+          <>ClaimableAmount: {formatChainAsNum(claimableAmount)}</>
         </>
-      </>
-      <>
-        <>Claim Rewards and Amount </>
-        <input
-          type="number"
-          placeholder="Enter amount"
-          value={claimTokenId}
-          onChange={(e) => setClaimTokenId(e.target.value)}
-        />{" "}
-        <>
-          {" "}
-          <button onClick={Claim}>Calculate</button>
-          <>{claimHash}</>
-        </>
-      </>
-      <>
+      </div>
+
+
+
+
+
+
+      <div style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#efefef" }} >
         <>WithDraw Tokens </>
         <input
           type="number"
           placeholder="Enter amount"
           value={withDrawTokenId}
           onChange={(e) => setWithDrawTokenId(e.target.value)}
-        />{" "}
+        />
         <>
-          {" "}
           <button onClick={WithDraw}>Calculate</button>
           <>{withDrawHash}</>
         </>
-      </>
-      <>
+      </div>
+
+      <div style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#efefef" }} >
         <>Increase Locking Amount </>
         <input
           type="number"
@@ -253,13 +282,26 @@ export const LockingPage = () => {
         <>
           {" "}
           <button onClick={IncreaseAmount}>Calculate</button>
-          <>{increaseAmountHash}</>
+          <>Increased Amount Hash: {increaseAmountHash}</>
         </>
-      </>
+      </div>
 
 
-
-      <>
+      <div style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#efefef" }} >
+        <>Claim Rewards and Amount </>
+        <input
+          type="number"
+          placeholder="Enter Id"
+          value={claimTokenId}
+          onChange={(e) => setClaimTokenId(e.target.value)}
+        />
+        <>
+          <button onClick={Claim}>Calculate</button>
+          <>Claim Hash:{claimHash}</>
+        </>
+      </div>   
+      
+      <div style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#efefef" }} >
         <>Increase Locking Time </>
         <input
           type="number"
@@ -272,13 +314,12 @@ export const LockingPage = () => {
           placeholder="Enter Value"
           value={increasedTimeValue}
           onChange={(e) => setIncreasedTimeValue(e.target.value)}
-        />{" "}
+        />
         <>
-          {" "}
           <button onClick={IncreaseTime}>Calculate</button>
-          <>{increaseTimeHash}</>
+          <>Increased Lock TIme Hash: {increaseTimeHash}</>
         </>
-      </>
+      </div>
     </div>
   );
 };
