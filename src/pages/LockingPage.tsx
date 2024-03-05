@@ -36,7 +36,6 @@ export const LockingPage = () => {
     lockingHash,
     handleLock,
   } = useLocking();
-  console.log("LLL", locking)
 
   const { balance, checkBalance } = useBalanceCheck(
     locking,

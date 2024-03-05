@@ -11,3 +11,5 @@ export const formatChainAsNum = (chainIdHex: string) => {
 export const formatAddress = (addr: string) => {
   return `${addr.substring(0, 8)}...`
 }
+
+export const STAKER_CONTRACT = "0x5D7257f52993DB98C7E57743497C3E56E3e310Bd"
